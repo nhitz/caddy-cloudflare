@@ -1,12 +1,17 @@
-FROM --platform=$BUILDPLATFORM caddy:builder-alpine AS builder
+FROM caddy:builder-alpine AS builder
 
-ARG TARGETOS
-ARG TARGETARCH
-
-RUN --mount=type=cache,target=/root/.cache/go-build \
-    --mount=type=cache,target=/go/pkg \
-    GOOS=$TARGETOS GOARCH=$TARGETARCH xcaddy build --with github.com/caddy-dns/cloudflare
+RUN xcaddy build \
+    --with github.com/caddy-dns/cloudflare
 
 FROM caddy:alpine
 
+RUN apk add curl
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
+
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+CMD ["caddy", "run"]
