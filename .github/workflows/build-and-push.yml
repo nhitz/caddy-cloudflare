@@ -42,28 +42,16 @@ jobs:
       with:
         context: .
         file: ./Dockerfile
-        push: false
+        push: true  # Set to true for pushing directly to registries
         tags: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
         platforms: linux/amd64,linux/arm64
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache-new
-        load: true
 
     - name: Move Docker cache
       run: |
         rm -rf /tmp/.buildx-cache
         mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-
-    # Push to DockerHub
-    - name: Push to DockerHub
-      run: |
-        docker tag ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
-
-    # Push to GHCR
-    - name: Push to GHCR
-      run: |
-        docker push ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
 
     - name: Logout from DockerHub
       run: docker logout
