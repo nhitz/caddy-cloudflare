@@ -75,6 +75,9 @@ Includes image for alpine version of Caddy, rebuilt every Monday morning at 0300
 	      - caddy_data:/data
 	      - caddy_config:/config
 	      - $PWD/Caddyfile:/etc/caddy/Caddyfile
+ 	      - ./set_env_from_docker_secrets.sh:/set_env_from_docker_secrets.sh
+	    entrypoint: ["/bin/sh", "-c", ". /set_env_from_docker_secrets.sh && exec caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]
+
 	    secrets:
 	      - api_token
 	
@@ -99,7 +102,7 @@ Includes image for alpine version of Caddy, rebuilt every Monday morning at 0300
 	docker compose up --detached
 	```
 
-10. Verify you can't inspect the api token from the docker environment variable:
+10. Verify you can't inspect your cloudflare api token from the docker environment variable:
 	```
 	FORMAT='{{range .Config.Env}}{{if eq (index (split . "=") 0) "CLOUDFLARE_API_TOKEN"}}{{println .}}{{end}}{{end}}'
 	docker inspect --format="$FORMAT" caddy
