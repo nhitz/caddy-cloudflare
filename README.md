@@ -53,7 +53,7 @@ Includes image for alpine version of Caddy, rebuilt every Monday morning at 0300
  	docker network create --driver bridge caddynet
  	```
  
-6. Start your Docker container using the following command (substituting your own email address):
+7. Create a docker-compose.yml (substituting your own email address):
    
 	```yaml
 	version: "3.8"
@@ -93,8 +93,13 @@ Includes image for alpine version of Caddy, rebuilt every Monday morning at 0300
 	    name: caddynet
 	      external: true
 	```
+ 
+8. Run it!
+	```
+	docker compose up --detached
+	```
 
-7. Verify you can't inspect the api token from the docker environment variable:
+10. Verify you can't inspect the api token from the docker environment variable:
 	```
 	FORMAT='{{range .Config.Env}}{{if eq (index (split . "=") 0) "CLOUDFLARE_API_TOKEN"}}{{println .}}{{end}}{{end}}'
 	docker inspect --format="$FORMAT" caddy
