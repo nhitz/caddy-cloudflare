@@ -38,19 +38,14 @@ Includes image for alpine version of Caddy, rebuilt every Monday morning at 0300
 	}
 	```
 
-4. Set your cloudflare api token in CLOUDFLARE_API_TOKEN.txt which will be used as a Docker secret:
+4. Set your cloudflare api token in secret.txt which will be used as a Docker secret:
 	```
- 	echo "asdf789adfg78_ad0fgh0dfg70adfg7" | cat > CLOUDFLARE_API_TOKEN.txt
+ 	echo "asdf789adfg78_ad0fgh0dfg70adfg7" | cat > secret.txt
  	```
  
 5. Set read only permission to the secret:
 	```
-	chmod 400 CLOUDFLARE_API_TOKEN.txt
- 	```
-
-6. Create an external docker bridge network for caddy and any other containers to use:
-	```
- 	docker network create --driver bridge caddynet
+	chmod 400 secret.txt
  	```
  
 7. Create a docker-compose.yml (substituting your own email address):
@@ -60,43 +55,29 @@ Includes image for alpine version of Caddy, rebuilt every Monday morning at 0300
 	
 	services:
 	  caddy:
-	    image: ghcr.io/nhitz/caddy-cloudflare:alpine
+	    image: ghcr.io/nhitz/caddy-cloudflare:latest
  	    container_name: caddy
 	    restart: unless-stopped
 	    environment:
 	      ACME_EMAIL: "you@example.net"
-	      CLOUDFLARE_API_TOKEN: /run/secrets/api_token
+	      CLOUDFLARE_API_TOKEN: /run/secrets/cloudflare_api_token
 	      ACME_AGREE: 'true'
 	    ports:
 	      - "80:80"
 	      - "443:443"
-	      - "443:443/udp"
 	    volumes:
-	      - caddy_data:/data
-	      - caddy_config:/config
+	      - ./caddy_data:/data
+	      - ./caddy_config:/config
 	      - $PWD/Caddyfile:/etc/caddy/Caddyfile
- 	      - ./set_env_from_docker_secrets.sh:/set_env_from_docker_secrets.sh
-	    entrypoint: ["/bin/sh", "-c", ". /set_env_from_docker_secrets.sh && exec caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]
 	    secrets:
-	      - api_token
+	      - cloudflare_api_token
 	
 	secrets:
-	  api_token:
-	    file: ./CLOUDFLARE_API_TOKEN.txt
- 
-	volumes:
-	  caddy_data:
-	    name: caddy_data
-	  caddy_config:
-	    name: caddy_config
-	
-	networks:
-	  default:
-	    name: caddynet
-	    external: true
+	  cloudflare_api_token:
+	    file: ./secret.txt
 	```
  
-8. Run it!
+8. Do the thing:
 	```
 	docker compose up --detached
 	```
