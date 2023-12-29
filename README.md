@@ -91,7 +91,7 @@ Includes image for alpine version of Caddy, rebuilt every Monday morning at 0300
 	networks:
 	  default:
 	    name: caddynet
-	      external: true
+	    external: true
 	```
  
 8. Run it!
