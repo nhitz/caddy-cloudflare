@@ -9,7 +9,7 @@ Caddy with integrated support for Cloudflare DNS-01 ACME verification challenges
 
 ## Images
 
-Includes image for alpine version of Caddy, rebuilt every Monday morning at 0300 UTC.
+Includes image for both amd64 and arm64, rebuilt every Monday morning at 0300 UTC.
 
 ## Requirements
 1. A Cloudflare account
