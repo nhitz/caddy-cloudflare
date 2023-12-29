@@ -77,7 +77,6 @@ Includes image for alpine version of Caddy, rebuilt every Monday morning at 0300
 	      - $PWD/Caddyfile:/etc/caddy/Caddyfile
  	      - ./set_env_from_docker_secrets.sh:/set_env_from_docker_secrets.sh
 	    entrypoint: ["/bin/sh", "-c", ". /set_env_from_docker_secrets.sh && exec caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]
-
 	    secrets:
 	      - api_token
 	
