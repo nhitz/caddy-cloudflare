@@ -1,6 +1,6 @@
 # caddy-cloudflare
 
-![docker build](https://github.com/nhitz/caddy-cloudflare/actions/workflows/auto-build-on-base-image-change.yml/badge.svg)
+![docker build](https://github.com/nhitz/caddy-cloudflare/actions/workflows/build-and-push.yml/badge.svg)
 
 
 Caddy with integrated support for Cloudflare DNS-01 ACME verification challenges.
