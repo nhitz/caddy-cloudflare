@@ -14,4 +14,4 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
-CMD ["caddy", "run"]
+CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile"]
