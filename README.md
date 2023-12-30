@@ -60,7 +60,6 @@ Includes image for both amd64 and arm64, rebuilt every Monday morning at 0300 UT
 	    restart: unless-stopped
 	    environment:
 	      ACME_EMAIL: "you@example.net"
-	      CLOUDFLARE_API_TOKEN: /run/secrets/cloudflare_api_token
 	      ACME_AGREE: 'true'
 	    ports:
 	      - "80:80"
