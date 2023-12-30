@@ -81,9 +81,3 @@ Includes image for both amd64 and arm64, rebuilt every Monday morning at 0300 UT
 	```
 	docker compose up --detached
 	```
-
-8. Verify you can't inspect your cloudflare api token from the docker environment variable:
-	```
-	FORMAT='{{range .Config.Env}}{{if eq (index (split . "=") 0) "CLOUDFLARE_API_TOKEN"}}{{println .}}{{end}}{{end}}'
-	docker inspect --format="$FORMAT" caddy
-	```
