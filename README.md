@@ -1,7 +1,8 @@
 # caddy-cloudflare
 
-![docker build](https://github.com/nhitz/caddy-cloudflare/actions/workflows/build-and-push.yml/badge.svg)
-
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/nhitz/caddy-cloudflare/build-and-push.yml)
+![Docker Image Size with architecture (latest by date/latest semver)](https://img.shields.io/docker/image-size/liquidgoat/caddy-cloudflare?arch=arm64&logo=caddy&logoColor=green&link=https%3A%2F%2Fhub.docker.com%2Frepository%2Fdocker%2Fliquidgoat%2Fcaddy-cloudflare%2Fgeneral)
+![GitHub License](https://img.shields.io/github/license/nhitz/caddy-cloudflare)
 
 Caddy with integrated support for Cloudflare DNS-01 ACME verification challenges.
 
@@ -21,7 +22,17 @@ Includes image for both amd64 and arm64, rebuilt every Monday morning at 0300 UT
 	- Zone / Zone / Read
 	- Zone / DNS / Edit
 
-2. Add this snippet to your Caddyfile:
+2. Set your cloudflare api token in secret.txt which will be used as a Docker secret:
+	```
+ 	echo "asdf789adfg78_ad0fgh0dfg70adfg7" | cat > secret.txt
+ 	```
+
+3. Set read only permission to the secret:
+	```
+	chmod 400 secret.txt
+ 	```
+
+4. Add this snippet to your Caddyfile:
 	```Caddyfile
 	(tls-cloudflare) {
 		tls {
@@ -30,25 +41,15 @@ Includes image for both amd64 and arm64, rebuilt every Monday morning at 0300 UT
 	}
 	```
  
- 3. Import the snippet where you declare your domain:
+ 5. Import the snippet where you declare your domain:
  	```Caddyfile
   	www.example.net, example.net {
 		import tls-cloudflare
 		respond "wawaweewa"
 	}
 	```
-
-4. Set your cloudflare api token in secret.txt which will be used as a Docker secret:
-	```
- 	echo "asdf789adfg78_ad0fgh0dfg70adfg7" | cat > secret.txt
- 	```
  
-5. Set read only permission to the secret:
-	```
-	chmod 400 secret.txt
- 	```
- 
-7. Create a docker-compose.yml (substituting your own email address):
+6. Create a docker-compose.yml (substituting your own email address):
    
 	```yaml
 	version: "3.8"
@@ -76,12 +77,12 @@ Includes image for both amd64 and arm64, rebuilt every Monday morning at 0300 UT
 	    file: ./secret.txt
 	```
  
-8. Do the thing:
+7. Do the thing:
 	```
 	docker compose up --detached
 	```
 
-10. Verify you can't inspect your cloudflare api token from the docker environment variable:
+8. Verify you can't inspect your cloudflare api token from the docker environment variable:
 	```
 	FORMAT='{{range .Config.Env}}{{if eq (index (split . "=") 0) "CLOUDFLARE_API_TOKEN"}}{{println .}}{{end}}{{end}}'
 	docker inspect --format="$FORMAT" caddy
