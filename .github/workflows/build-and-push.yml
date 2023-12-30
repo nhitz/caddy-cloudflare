@@ -42,8 +42,10 @@ jobs:
       with:
         context: .
         file: ./Dockerfile
-        push: true  # Set to true for pushing directly to registries
-        tags: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
+        push: true
+        tags: |
+          ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
+          ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
         platforms: linux/amd64,linux/arm64
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache-new
