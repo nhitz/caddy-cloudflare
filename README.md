@@ -27,7 +27,7 @@ Includes image for both amd64 and arm64, rebuilt every Monday morning at 0300 UT
  	echo "asdf789adfg78_ad0fgh0dfg70adfg7" | cat > secret.txt
  	```
 
-3. Set read only permission to the secret:
+3. Set read-only permission to the secret:
 	```
 	chmod 400 secret.txt
  	```
