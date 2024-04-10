@@ -4,7 +4,8 @@
 ![Docker Image Size with architecture (latest by date/latest semver)](https://img.shields.io/docker/image-size/liquidgoat/caddy-cloudflare?arch=arm64&logo=caddy&logoColor=green&link=https%3A%2F%2Fhub.docker.com%2Frepository%2Fdocker%2Fliquidgoat%2Fcaddy-cloudflare%2Fgeneral)
 ![GitHub License](https://img.shields.io/github/license/nhitz/caddy-cloudflare)
 
-Caddy with integrated support for Cloudflare DNS-01 ACME verification challenges.
+Caddy with integrated support for Cloudflare DNS-01 ACME verification challenges.<br>  
+This is the base caddy image [extended](https://caddyserver.com/docs/extending-caddy) with the [caddy-dns cloudflare module](https://github.com/caddy-dns/cloudflare).
 
 **Please see the official [Caddy Docker Image](https://hub.docker.com/_/caddy) for more detailed deployment instructions.**
 
@@ -32,7 +33,7 @@ Includes image for both amd64 and arm64, rebuilt every Monday morning at 0300 UT
 	chmod 400 secret.txt
  	```
 
-4. Add this snippet to your Caddyfile:
+4. Add this snippet to the top of your Caddyfile:
 	```Caddyfile
 	(tls-cloudflare) {
 		tls {
@@ -41,7 +42,7 @@ Includes image for both amd64 and arm64, rebuilt every Monday morning at 0300 UT
 	}
 	```
  
- 5. Import the snippet where you declare your domain:
+ 5. Import the snippet below where you declare your domain in your Caddyfile:
  	```Caddyfile
   	www.example.net, example.net {
 		import tls-cloudflare
@@ -58,7 +59,7 @@ Includes image for both amd64 and arm64, rebuilt every Monday morning at 0300 UT
  	    container_name: caddy
 	    restart: unless-stopped
 	    environment:
-	      ACME_EMAIL: "you@example.net"
+	      ACME_EMAIL: "you@example.net"	# <-- Change
 	      ACME_AGREE: 'true'
 	    ports:
 	      - "80:80"
@@ -79,3 +80,25 @@ Includes image for both amd64 and arm64, rebuilt every Monday morning at 0300 UT
 	```
 	docker compose up --detached
 	```
+
+## Editing the Caddyfile
+If you ever change your Caddyfile, these are some useful commands to use aftwards:
+
+Format the Caddyfile:
+
+ 	docker exec -it caddy sh -c "caddy fmt --overwrite /etc/caddy/Caddyfile"
+ 
+Validate the Caddyfile: Tests whether a configuration file is valid.
+
+ 	docker exec -it caddy sh -c "caddy validate --config /etc/caddy/Caddyfile"
+
+Reload the Caddyfile: Changes the config of the running Caddy instance.
+
+ 	docker exec -it caddy sh -c "caddy reload --config /etc/caddy/Caddyfile"
+
+Useful aliases to add to your .bash_aliases:
+
+	alias caddy-fmt='docker exec -it caddy sh -c "caddy fmt --overwrite /etc/caddy/Caddyfile"'
+	alias caddy-validate='docker exec -it caddy sh -c "caddy validate --config /etc/caddy/Caddyfile"'
+	alias caddy-reload='docker exec -it caddy sh -c "caddy reload --config /etc/caddy/Caddyfile"'
+ 	alias caddy-all='caddy-fmt && caddy-validate && caddy-reload'
