@@ -23,7 +23,7 @@ Includes image for both amd64 and arm64, rebuilt every Monday morning at 0300 UT
 	- Zone / Zone / Read
 	- Zone / DNS / Edit
 
-2. Set your cloudflare api token in secret.txt which will be used as a Docker secret:
+2. Set your cloudflare api token in secret.txt which will be used as a [Docker secret](https://docs.docker.com/compose/use-secrets/):
 	```
  	echo "asdf789adfg78_ad0fgh0dfg70adfg7" | cat > secret.txt
  	```
