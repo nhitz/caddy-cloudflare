@@ -52,8 +52,6 @@ Includes image for both amd64 and arm64, rebuilt every Monday morning at 0300 UT
 6. Create a docker-compose.yml (substituting your own email address):
    
 	```yaml
-	version: "3.8"
-	
 	services:
 	  caddy:
 	    image: ghcr.io/nhitz/caddy-cloudflare:latest
