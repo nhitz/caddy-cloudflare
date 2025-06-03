@@ -33,7 +33,7 @@ This is the base caddy image [extended](https://caddyserver.com/docs/extending-c
    chmod 400 .env
    ```
 
-4. Add this snippet to the top of your Caddyfile:
+4. Add this [snippet](https://caddyserver.com/docs/caddyfile/directives/tls#tls:~:text=Enable%20the%20DNS%20challenge%20for%20a%20domain%20managed%20on%20Cloudflare%20with%20account%20credentials%20in%20an%20environment%20variable.%20This%20unlocks%20wildcard%20certificate%20support%2C%20which%20requires%20DNS%20validation%3A) to the top of your Caddyfile:
 
    ```Caddyfile
    (tls-cloudflare) {
