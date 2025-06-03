@@ -63,7 +63,7 @@ This is the base caddy image [extended](https://caddyserver.com/docs/extending-c
        environment:
          ACME_EMAIL: "you@example.net" # <-- Change
          ACME_AGREE: "true"
-   	 CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN}
+   	   CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN}
        ports:
          - "80:80"
          - "443:443"
