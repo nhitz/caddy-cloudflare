@@ -78,7 +78,7 @@ Includes image for both amd64 and arm64, rebuilt every Monday morning at 0300 UT
  
 7. Do the thing:
 	```
-	docker compose up --detached
+	docker compose up --detach
 	```
 
 ## Editing the Caddyfile
